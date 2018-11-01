@@ -13,9 +13,28 @@ window.onload = function()
 		c[i].style.top = y + "px";
 		c[i].style.backgroundAttachment = "fixed";
 		c[i].addEventListener("click", function() {
-			movetile(this.offsetLeft,this.offsetTop);
+			if (isadjacentpoint(this.offsetLeft,this.offsetTop))
+			{
+				var davoid = whereisthespace();
+				var y = davoid[0];
+				var x = y.split(",");
+				this.style.left = x[0] + "px";
+				this.style.top = x[1] + "px";
+			}
 		}, false);
-		//c[i].addEventListener("mouseover", hovermiseh, false);
+		c[i].addEventListener("mouseover", function() {
+			if (isadjacentpoint(this.offsetLeft,this.offsetTop))
+			{
+				this.classList.add("movablepiece");
+			}
+		}, false);
+		
+		c[i].addEventListener("mouseleave", function() {
+			if (isadjacentpoint(this.offsetLeft,this.offsetTop))
+			{
+				this.classList.remove("movablepiece");
+			}
+		}, false);
 		
 		x +=100;
 		count +=1;
@@ -29,13 +48,16 @@ window.onload = function()
 	
 	function movetile(xc,yc)
 	{
+		if (isadjacentpoint(xc,yc))
+		{
+			var davoid = whereisthespace();
+			var y = davoid[0];
+			var x = y.split(",");
+			
+		}
 		alert("Hola! Im Movin Bitches! From " + xc + " " + yc);
 	};
 	
-	function hovermiseh()
-	{
-		
-	};
 	
 	function whereisthespace()
 	{
@@ -54,16 +76,21 @@ window.onload = function()
 	function isadjacentpoint(xc,yc)
 	{
 		var davoid = whereisthespace();
-		var x = davoid[0];
-		var ol = x.split(",");
-		
-		if (ol[0] = 300)
+		var y = davoid[0];
+		var x = y.split(",");
+		var ydiff = yc - x[1];
+		var xdiff = xc - x[0];
+		if ((xdiff == 0 && (ydiff < 200 && ydiff > -200)) || (ydiff == 0 && (xdiff < 200 && xdiff > -200)))
 		{
-			console.log(ol[0] + " " + ol[1]);
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 		
 	};
 	
-	adjacentpoints();
+	
 	
 }
