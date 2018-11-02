@@ -1,6 +1,7 @@
 window.onload = function()
 {
 	var puzzlearea = $("#puzzlearea");
+	var shufflebutton = $("#shufflebutton");
 	var c = puzzlearea.children();
 	var x = 0;
 	var y = 0;
@@ -11,7 +12,8 @@ window.onload = function()
 		$(c[i]).addClass("puzzlepiece");
 		c[i].style.left = x + "px";
 		c[i].style.top = y + "px";
-		c[i].style.backgroundAttachment = "fixed";
+		c[i].style.backgroundPosition = -x + "px" + " " + -y + "px";
+		
 		c[i].addEventListener("click", function() {
 			if (isadjacentpoint(this.offsetLeft,this.offsetTop))
 			{
@@ -45,6 +47,14 @@ window.onload = function()
 			x=0;
 		}
 	}
+	console.log(shufflebutton);
+	shufflebutton[0].addEventListener("click", function() {
+		var davoid = whereisthespace();
+		var y = davoid[0];
+		var x = y.split(",");
+		//algorithm would be to move x[0] and x[1] randomly up or down by 100 and then move it to the position of the space?
+		alert("Boom!");
+	}, false);
 	
 	function movetile(xc,yc)
 	{
@@ -90,7 +100,6 @@ window.onload = function()
 		}
 		
 	};
-	
-	
+		
 	
 }
