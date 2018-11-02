@@ -47,26 +47,19 @@ window.onload = function()
 			x=0;
 		}
 	}
-	console.log(shufflebutton);
-	shufflebutton[0].addEventListener("click", function() {
-		var davoid = whereisthespace();
-		var y = davoid[0];
-		var x = y.split(",");
-		//algorithm would be to move x[0] and x[1] randomly up or down by 100 and then move it to the position of the space?
-		alert("Boom!");
-	}, false);
 	
-	function movetile(xc,yc)
-	{
-		if (isadjacentpoint(xc,yc))
-		{
-			var davoid = whereisthespace();
-			var y = davoid[0];
-			var x = y.split(",");
-			
-		}
-		alert("Hola! Im Movin Bitches! From " + xc + " " + yc);
-	};
+	shufflebutton[0].addEventListener("click", function() {
+		var adj = getadjacentpoints();
+		var rand = Math.floor(Math.random() * adj.length);
+		var piecetomove = adj[rand];
+		var moveto = whereisthespace();
+		var m = document.querySelector('#puzzlearea > [offsetTop~=100px]');
+		console.log(m);
+		//var m = c.elementFromPoint(piecetomove[0],piecetomove[1]);
+		//m.style.left = moveto[0] + "px";
+		//m.style.top = moveto[1] + "px";
+		//console.log(piecetomove);
+	}, false);
 	
 	
 	function whereisthespace()
@@ -99,6 +92,35 @@ window.onload = function()
 			return false;
 		}
 		
+	};
+	
+	function getadjacentpoints()
+	{
+		var davoid = whereisthespace();
+		var y = davoid[0];
+		var x = y.split(",");
+		var xup = Number(x[0]) + 100;
+		var xdown = Number(x[0]) - 100;
+		var yup = Number(x[1]) + 100;
+		var ydown = Number(x[1]) - 100;
+		var adjpoints = [];
+		if (xup < 301)
+		{
+			adjpoints.push(xup + "," + x[1]);
+		}
+		if (xdown > -1)
+		{
+			adjpoints.push(xdown + "," + x[1]);
+		}
+		if (yup < 301)
+		{
+			adjpoints.push(x[0] + "," + yup);
+		}
+		if (ydown > -1)
+		{
+			adjpoints.push(x[0] + "," + ydown);
+		}
+		return adjpoints;
 	};
 		
 	
