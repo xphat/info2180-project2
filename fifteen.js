@@ -1,7 +1,17 @@
+/**
+ID: 01-021275
+Extra Feature Implemented - Animating the Movement of Puzzlepieces
+**/
+
 window.onload = function()
 {
+	//select puzzlearea
 	var puzzlearea = $("#puzzlearea");
+	
+	//select shufflebutton
 	var shufflebutton = $("#shufflebutton");
+	//select puzzlearea children
+	
 	var c = puzzlearea.children();
 	var x = 0;
 	var y = 0;
@@ -9,6 +19,7 @@ window.onload = function()
 	
 	for (var i = 0; i < c.length; i++)
 	{
+		//For loop to add puzzlepiece class to each div in the puzzlearea also used to add eventlisteners to each puzzlepiece
 		$(c[i]).addClass("puzzlepiece");
 		c[i].style.left = x + "px";
 		c[i].style.top = y + "px";
@@ -20,9 +31,12 @@ window.onload = function()
 				var davoid = whereisthespace();
 				var y = davoid[0];
 				var x = y.split(",");
+				//spy and spx are the starting positions x,y
 				var spx = this.offsetLeft;
 				var spy = this.offsetTop;
+				//selector for moveable piece in order to animate it
 				var elem = document.querySelectorAll("div.puzzlepiece.movablepiece");
+				//animation
 				var id = setInterval(frame, 5);
 				function frame() {
 					if (spx == x[0] && spy == x[1]) {
@@ -36,7 +50,7 @@ window.onload = function()
 							spy-=5;
 						if (spy < x[1])
 							spy+=5;
-						
+						//increment or decrement the starting positions as needed until they are at the location of the empty space
 						elem[0].style.left = spx + "px";
 						elem[0].style.top = spy + "px";  
 					}
@@ -67,7 +81,9 @@ window.onload = function()
 		}
 	}
 	
+	//add event listener to shufflebutton
 	shufflebutton[0].addEventListener("click", function() {
+		//random amount of shuffles between 1-500 and calls the shufflemiseh function that amount of times!
 		var numshuff = Math.floor(Math.random() * 500);
 		while (numshuff > 0)
 		{
@@ -77,7 +93,10 @@ window.onload = function()
 	}, false);
 	
 	
-	
+	//heh. shuffle!
+	//Shuffle works by getting all the co-ordinates of the adjacent points to the void
+	//Then it randomly chooses one, based on the number of adjacent points returned
+	//Then it goes through the puzzlepieces to find the div to move and once it finds it, it moves it to the void.
 	function shufflemiseh()
 	{
 		var adj = getadjacentpoints();
@@ -89,7 +108,7 @@ window.onload = function()
 		var davoid = whereisthespace();
 		var y = davoid[0];
 		var x = y.split(",");
-		
+
 		var m = document.querySelectorAll("div.puzzlepiece");
 		for (var i = 0; i < m.length; i++)
 		{
@@ -102,11 +121,13 @@ window.onload = function()
 	};
 	
 	
+	//function to return the x,y co-ordinates of the empty space
 	function whereisthespace()
 	{
+		//create array with all the possible points
 		var allpoints = ["0,0", "0,100", "0,200", "0,300", "100,0", "100,100", "100,200", "100,300", "200,0", "200,100", "200,200", "200,300", "300,0", "300,100", "300,200", "300,300"];
 		var index;
-		
+		//loop throough the current location of the points and splice them off the array, leaving only the blank space.
 		for (var i = 0; i < c.length; i++)
 		{
 			index = allpoints.indexOf(c[i].offsetLeft + "," + c[i].offsetTop);
@@ -115,7 +136,7 @@ window.onload = function()
 		return allpoints;
 	};
 	
-	
+	//function to return whether or not a puzzlepiece is moveable
 	function isadjacentpoint(xc,yc)
 	{
 		var davoid = whereisthespace();
@@ -134,6 +155,8 @@ window.onload = function()
 		
 	};
 	
+	
+	//function to get all adjacent moveable points to the empty space (useful for the shuffle function!)
 	function getadjacentpoints()
 	{
 		var davoid = whereisthespace();
