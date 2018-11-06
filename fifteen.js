@@ -20,8 +20,27 @@ window.onload = function()
 				var davoid = whereisthespace();
 				var y = davoid[0];
 				var x = y.split(",");
-				this.style.left = x[0] + "px";
-				this.style.top = x[1] + "px";
+				var spx = this.offsetLeft;
+				var spy = this.offsetTop;
+				var elem = document.querySelectorAll("div.puzzlepiece.movablepiece");
+				var id = setInterval(frame, 5);
+				function frame() {
+					if (spx == x[0] && spy == x[1]) {
+						clearInterval(id);
+					} else {
+						if (spx > x[0])
+							spx-=5;
+						if (spx < x[0])
+							spx+=5;
+						if (spy > x[1])
+							spy-=5;
+						if (spy < x[1])
+							spy+=5;
+						
+						elem[0].style.left = spx + "px";
+						elem[0].style.top = spy + "px";  
+					}
+				}
 			}
 		}, false);
 		c[i].addEventListener("mouseover", function() {
